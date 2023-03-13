@@ -1,7 +1,7 @@
 // Crée des objets de photographe
 function photographerFactory(data) {
     // Découpe les données des photographes pour obtenir les propriétés choisies
-    const { name, portrait, city, country, tagline, price } = data;
+    const { name, id, portrait, city, country, tagline, price } = data;
 
     // Chemin d'accès à l'img du photographe
     const picture = `assets/photographers/photographersProfile/${portrait}`;
@@ -19,7 +19,7 @@ function photographerFactory(data) {
         const priceElement = document.createElement("p3");
 
         // Configure les propriétés des éléments HTML
-        a.setAttribute("href", "../../photographer.html");
+        a.setAttribute("href", `../../photographer.html?id=${id}`);
         a.setAttribute("aria-label", `Voir la page de ${name}`);
         
         img.setAttribute("src", picture)
