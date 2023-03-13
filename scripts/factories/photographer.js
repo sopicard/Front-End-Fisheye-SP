@@ -22,7 +22,7 @@ function photographerFactory(data) {
         a.setAttribute("href", `../../photographer.html?id=${id}`);
         a.setAttribute("aria-label", `Voir la page de ${name}`);
         
-        img.setAttribute("src", picture)
+        img.setAttribute("src", picture);
         img.setAttribute("alt", `Portrait de ${name}`);
 
         h2.textContent = name;
@@ -31,7 +31,7 @@ function photographerFactory(data) {
         priceElement.textContent =  `${price}€/jour`;
 
         // Ajoute les éléments HTML à l'élément "article" contenu dans le lien "a"
-        a.appendChild(article)
+        a.appendChild(article);
         article.appendChild(img);
         article.appendChild(h2);
         article.appendChild(location);
