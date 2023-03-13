@@ -6,4 +6,3 @@ const id = urlParams.get("id");
 
 // Affiche l'id dans la console
 console.log(id);
-
