@@ -10,6 +10,7 @@ function photographerFactory(data) {
     function getUserCardDOM() {
 
         // Crée les éléments HTML pour chaque carte
+        const a = document.createElement("a");
         const article = document.createElement("article");
         const img = document.createElement("img");
         const h2 = document.createElement("h2");
@@ -18,21 +19,27 @@ function photographerFactory(data) {
         const priceElement = document.createElement("p3");
 
         // Configure les propriétés des éléments HTML
+        a.setAttribute("href", "../../photographer.html");
+        a.setAttribute("aria-label", `Voir la page de ${name}`);
+        
         img.setAttribute("src", picture)
+        img.setAttribute("alt", `Portrait de ${name}`);
+
         h2.textContent = name;
         location.textContent = `${city}, ${country}`;
         taglineElement.textContent = tagline;
         priceElement.textContent =  `${price}€/jour`;
 
-        // Ajoute les éléments HTML à l'élément "article"
+        // Ajoute les éléments HTML à l'élément "article" contenu dans le lien "a"
+        a.appendChild(article)
         article.appendChild(img);
         article.appendChild(h2);
         article.appendChild(location);
         article.appendChild(taglineElement);
         article.appendChild(priceElement);
         
-        // Retourne l'élément "article" avec la carte
-        return article;
+        // Retourne l'élément "a" avec la carte
+        return a;
     }
 
     // Retourne un objet contenant les propriétés du photographe
