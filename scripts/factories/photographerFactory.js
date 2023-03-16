@@ -46,3 +46,5 @@ function photographerFactory(data) {
     //  et la fonction qui crée la carte du photographe
     return { name, picture, city, country, tagline, price, getUserCardDOM }
 }
+
+export { photographerFactory };
