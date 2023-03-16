@@ -12,13 +12,13 @@ async function getData(file) {
 const urlParams = new URLSearchParams(window.location.search);
 const id = parseInt(urlParams.get("id"));
 
-// Cherche le photographe dans le tableau à partir de son ID en utilisant méthode find()
+// Cherche le photographe dans le tableau à partir de son ID
 const findPhotographerById = (id, photographers) => {
   const photographer = photographers.find((photographer) => photographer.id === id);
   return photographer;
 };
 
-// Récupère les médias correspondant à l'ID du photographe dans l'URL
+// Récupère les médias correspondant à l'ID du photographe
 const getMediasByPhotographerId = (id, medias) => {
   const mediasByPhotographer = medias.filter((media) => media.photographerId === id);
   return mediasByPhotographer;
@@ -26,7 +26,7 @@ const getMediasByPhotographerId = (id, medias) => {
 
 // Affiche les données du photographe sur la page
 async function displayPhotographerData(id) {
-  // Attend que la promesse retournée par getData soit résolue
+  // Attend la récupération des données du fichier JSON
   const data = await getData("../../data/photographers.json");
   console.log("Data:", data);
   const photographers = data.photographers;
@@ -41,13 +41,31 @@ async function displayPhotographerData(id) {
   // Crée les éléments HTML pour le photographe
   const photographerElement = photographerFactory(photographer);
 
-  // Crée les éléments HTML pour les médias du photographe
-  photographerMedias.forEach(media => {
-    const mediaElement = mediaFactory(media);
-    // => mettre le mediaElement créé à la page HTML
-  });
+  // Insère le header du photographe
+  const photographerHeader = document.querySelector(".photograph-header");
+  const photographerHeaderDOM = photographerElement.getPhotographerHeaderDOM();
+  const { div, img} = photographerHeaderDOM;
 
-  // => mettre le photographerElement créé à la page HTML
+  const contactButton = document.querySelector(".contact_button")
+
+  // Insère les informations du photographe avant le bouton
+  photographerHeader.insertBefore(div, contactButton);
+
+  // Insère la photo du photographe après le bouton
+  photographerHeader.insertBefore(img, contactButton.nextSibling);
+
+  // Crée un conteneur pour les médias du photographe
+  const mediaContainer = document.createElement("div");
+  mediaContainer.classList.add ("media-container");
+  const mainPart = document.querySelector("main");
+  mainPart.appendChild(mediaContainer);
+
+  // Crée les éléments HTML pour les médias du photographe et les ajoute au container
+  photographerMedias.forEach(media => {
+    media.photographerId = id;
+    const mediaElement = mediaFactory(media);
+    mediaContainer.appendChild(mediaElement);
+  });
 }
 
 // Affiche les données du photographe

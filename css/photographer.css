@@ -7,6 +7,31 @@
     height: 300px;
     margin: 0 100px;
     display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.photograph-header .infosDiv {
+    display: flex;
+    flex-direction: column;
+}
+
+.photograph-header h2 {
+    color: #D3573C;
+    font-size: 64px;
+    font-weight: normal;
+    margin: 0;
+}
+
+.photograph-header p1 {
+    color: #901C1C;
+    font-size: 24px;
+    margin-bottom: 1rem;
+}
+
+.photograph-header p2 {
+    color: black;
+    font-size: 18px;
 }
 
 .contact_button {
@@ -20,6 +45,59 @@
     background-color: #901C1C;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.photograph-header img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}
+
+.media-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 0 100px;
+    margin-top: 100px;
+    gap: 30px;
+}
+
+.media-photograph {
+    width: 350px;
+    height: 350px;
+}
+
+.media-photograph img, video {
+    width: 350px;
+    height: 300px;
+    object-fit: cover;
+}
+
+.media-infos {
+    display: flex;
+    align-items: center;
+}
+
+.media-infos p1, p2, i {
+    font-size: 24px;
+    color: #901C1C;
+    margin: 0;
+}
+
+.media-infos p1 {
+    max-width: 70%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+
+.media-infos p2 {
+    margin-left: auto;
+}
+
+.media-infos i {
+    margin-left: 10px;
 }
 
 .modal {
