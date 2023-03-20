@@ -68,7 +68,6 @@ function photographerFactory(data) {
 
         // Retourne un objet contenant la div des informations et l'image du photographe
         return { div, img };
-
     }
 
     // Retourne un objet contenant les propriétés du photographe

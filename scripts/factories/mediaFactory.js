@@ -45,6 +45,10 @@ function mediaFactory(data) {
     // Retourner l'élément "div" construit
     return div;
   }
+
+  function sortByPopularity(mediaList) {
+    return mediaList.sort((mediaA, mediaB) => mediaB.likes - mediaA.likes);
+  }
   
-export { mediaFactory };
+export { mediaFactory, sortByPopularity };
   

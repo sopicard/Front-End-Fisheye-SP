@@ -14,11 +14,8 @@ async function getPhotographers() {
 }
 
 //Affiche la carte de chaque photographe
-async function displayData() {
-    // Attend la récupération du tableau des photographes
-    const photographers = await getPhotographers();
-
-    const photographersSection = document.querySelector(".photographer_section");
+async function displayData(photographers) {
+   const photographersSection = document.querySelector(".photographer_section");
 
     // Crée et ajoute une carte pour chaque photographe
     photographers.forEach((photographer) => {
@@ -30,7 +27,10 @@ async function displayData() {
 
 // Initialise l'application en affichant les cartes des photographes
 async function init() {
-    await displayData();
+    // Attend la récupération du tableau des photographes
+    const photographers = await getPhotographers();
+
+    await displayData(photographers);
 }
 
 // Démarre l'application en appelant la fonction init
