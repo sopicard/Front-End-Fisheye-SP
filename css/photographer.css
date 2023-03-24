@@ -113,15 +113,19 @@
     margin-left: 10px;
 }
 
+.media-infos i.liked {
+    color:#DB8876;
+}
+
 .total-container {
     display: flex;
     margin-left: auto;
     margin-right: 50px;
     background-color: #DB8876;
-    width: 25%;
+    width: 20%;
     border-radius: 5px;
-    justify-content: space-around;
     align-items: center;
+    padding: 0 30px;
 }
 
 .total-container p {
@@ -132,6 +136,7 @@
 .total-container i {
     color: black;
     padding-left: 10px;
+    margin-right: auto;
 }
 
 .modal {

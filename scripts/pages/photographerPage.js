@@ -1,5 +1,5 @@
 import { photographerFactory } from "../factories/photographerFactory.js";
-import { mediaFactory } from '../factories/mediaFactory.js';
+import { mediaFactory } from "../factories/mediaFactory.js";
 
 let photographerMedia = [];
 
@@ -22,6 +22,85 @@ const getMediaByPhotographerId = (id, media) => {
   return mediaByPhotographer;
 };
 
+// Trie les médias en fonction du type de tri selectionné
+function sortMedia(sortType) {
+  if (sortType === "popularity") {
+    photographerMedia.sort((a, b) => b.likes - a.likes);
+  } else if (sortType === "date") {
+    photographerMedia.sort((a, b) => new Date(b.date) - new Date(a.date));
+  } else if (sortType === "title") {
+    photographerMedia.sort((a, b) => a.title.localeCompare(b.title));
+  }
+};
+
+// Met à jour l'affichage des médias en fonction de l'option de tri choisie
+function updateDisplayMedia(photographerId) {
+  const mediaContainer = document.querySelector(".media-container");
+  mediaContainer.innerHTML = "";
+
+  addMediaToContainer(photographerId, photographerMedia, mediaContainer);
+};
+
+// Additionne tous les likes du photographe concerné
+function getTotalLikes(photographerMedia) {
+  let totalLikes = 0;
+  photographerMedia.forEach(media => {
+    totalLikes += media.likes;
+  });
+  return totalLikes;
+};
+
+// Met à jour le nombre de likes pour un seul média
+function updateLikeCount(mediaHeartId, mediaLikes) {
+  const mediaHeart = document.querySelector(`#${mediaHeartId}`);
+  const isLiked = mediaHeart.getAttribute("data-is-liked") === "true";
+
+  if(!isLiked) {
+    const currentLikes = parseInt(mediaLikes.textContent);
+    const newLikes = currentLikes + 1;
+    mediaLikes.textContent = newLikes;
+
+    mediaHeart.setAttribute("data-is-liked", true);
+    mediaHeart.classList.add("liked");
+
+    const mediaLikedEvent = new CustomEvent("mediaLiked");
+    document.dispatchEvent(mediaLikedEvent);
+
+    const totalLikesElement = document.querySelector(".total-container p");
+    const totalLikesHeart = totalLikesElement.querySelector(".total-container i");
+    const isTotalLiked = totalLikesHeart.getAttribute("data-is-liked") === "true";
+    if (!isTotalLiked) {
+      totalLikesHeart.setAttribute("data-is-liked", true);
+      totalLikesHeart.classList.add("liked");
+    }
+  };
+};
+
+// Met à jour le nombre total de likes pour tous les médias
+function updateTotalLikes() {
+  const totalLikesElement = document.querySelector(".total-container p");
+  const currentTotalLikes = parseInt(totalLikesElement.textContent);
+  const newTotalLikes = currentTotalLikes + 1;
+  totalLikesElement.textContent = `${newTotalLikes}`;
+}
+
+document.addEventListener("mediaLiked", updateTotalLikes);
+
+// Crée et ajoute les éléments HTML des médias triés correspondants à l'id du photographe
+function addMediaToContainer(photographerId, photographerMedia, mediaContainer) {
+  photographerMedia.forEach(media => {
+    media.photographerId = photographerId;
+    const mediaElement = mediaFactory(media);
+    const mediaHeart = mediaElement.querySelector(".fa-heart");
+    const mediaLikes = mediaElement.querySelector(".media-infos p2");
+    mediaContainer.appendChild(mediaElement);
+
+    mediaHeart.addEventListener("click", () => {
+      updateLikeCount(`media-heart-${media.id}`, mediaLikes);  
+    });
+  });
+};
+
 // Affiche les informations du photographe dans le header de la page
 function displayHeader(photographer) {
   const photographerElement = photographerFactory(photographer);
@@ -36,26 +115,6 @@ function displayHeader(photographer) {
   photographerHeader.insertBefore(img, contactButton.nextSibling);
 };
 
-// Trie les médias en fonction du type de tri selectionné
-function sortMedia(sortType) {
-  if (sortType === "popularity") {
-    photographerMedia.sort((a, b) => b.likes - a.likes);
-  } else if (sortType === "date") {
-    photographerMedia.sort((a, b) => new Date(b.date) - new Date(a.date));
-  } else if (sortType === "title") {
-    photographerMedia.sort((a, b) => a.title.localeCompare(b.title));
-  }
-};
-
-// Crée et ajoute les éléments HTML des médias triés correspondants à l'id du photographe
-function addMediaToContainer(photographerId, photographerMedia, mediaContainer) {
-  photographerMedia.forEach(media => {
-    media.photographerId = photographerId;
-    const mediaElement = mediaFactory(media);
-    mediaContainer.appendChild(mediaElement);
-  });
-};
-
 // Affiche les médias triés sur la page
 function displayMedia(photographerId, media) {
   const mediaContainer = document.createElement("div");
@@ -68,24 +127,6 @@ function displayMedia(photographerId, media) {
   mainPart.appendChild(mediaContainer);
 
   addMediaToContainer(photographerId, media, mediaContainer);
-};
-
-// Met à jour l'affichage des médias en fonction de l'option de tri choisie
-function updateDisplayMedia(photographerId) {
-
-  const mediaContainer = document.querySelector(".media-container");
-  mediaContainer.innerHTML = "";
-
-  addMediaToContainer(photographerId, photographerMedia, mediaContainer);
-};
-
-// Additionne tous les likes du photographe concerné
-function getTotalLikes(photographerMedia) {
-  let totalLikes = 0;
-  photographerMedia.forEach(media => {
-    totalLikes += media.likes;
-  });
-  return totalLikes;
 };
 
 // Crée et affiche l'encart totalLikes + prix/jour
@@ -106,11 +147,9 @@ function displayTotalLikesAndPrice(photographerMedia, photographer) {
   const mainPart = document.querySelector("main");
   mainPart.appendChild(totalContainer);
   totalContainer.appendChild(totalLikesElement);
+  totalContainer.appendChild(heartIcon);
   totalContainer.appendChild(pricePerDayElement);
-  totalLikesElement.appendChild(heartIcon);
-
-}
-
+};
 
 // Initialisation pour charger et afficher les données
 async function init() {
