@@ -10,9 +10,12 @@ function photographerFactory(data) {
         const article = document.createElement("article");
         const img = document.createElement("img");
         const h2 = document.createElement("h2");
-        const location = document.createElement("p1");
-        const taglineElement = document.createElement("p2");
-        const priceElement = document.createElement("p3");
+        const location = document.createElement("p");
+        location.classList.add("location-p");
+        const taglineElement = document.createElement("p");
+        taglineElement.classList.add("tagline-p");
+        const priceElement = document.createElement("p");
+        priceElement.classList.add("price-p");
 
         a.setAttribute("href", `../../photographer.html?id=${id}`);
         a.setAttribute("aria-label", `Voir la page de ${name}`); 
@@ -40,8 +43,10 @@ function photographerFactory(data) {
         const div = document.createElement("div");
         div.classList.add("infosDiv");
         const h2 = document.createElement("h2");
-        const location = document.createElement("p1");
-        const taglineElement = document.createElement("p2");
+        const location = document.createElement("p");
+        location.classList.add("location-p");
+        const taglineElement = document.createElement("p");
+        taglineElement.classList.add("tagline-p");
         const img = document.createElement("img");
 
         h2.textContent = name;

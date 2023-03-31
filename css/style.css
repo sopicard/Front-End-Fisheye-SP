@@ -21,6 +21,7 @@ h1 {
 .logo {
     height: 50px;
     margin-left: 100px;
+    cursor: pointer
 }
 
 .photographer_section {
@@ -55,17 +56,17 @@ h1 {
     border-radius: 50%;
 }
 
-.photographer_section article p1 {
+.photographer_section article .location-p {
     color: #901C1C;
     font-size: 13px;
 }
 
-.photographer_section article p2 {
+.photographer_section article .tagline-p {
     color: black;
     font-size: 10px;
 }
 
-.photographer_section article p3 {
+.photographer_section article .price-p {
     color: #757575;
     font-size: 9px;
 }
