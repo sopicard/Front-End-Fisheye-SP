@@ -1,44 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
   <head>
     <link href="css/style.css" rel="stylesheet" type="text/css" />
     <meta charset="utf-8">
     <link rel="icon" type="image/png" href="assets/favicon.png">
     <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet">
     <script type="module" src="/scripts/pages/photographerPage.js"></script>
-    <script src="/scripts/utils/contactForm.js" defer></script>
+    <script type="module" src="/scripts/utils/contactForm.js"></script>
     <script src="https://kit.fontawesome.com/4ebe5d99d1.js" crossorigin="anonymous" defer></script>
     <title>Fisheye - photographe </title>
   </head>
   <body>
     <header>
-      <img src="assets/images/logo.png" class="logo clickable-logo" />
+      <a href="index.html" aria-label="Back to home page" class="logo_link focus-line-orange">
+        <img src="assets/images/logo.png" alt="Fisheye Home page" class="logo" />
+      </a>
+      <h1>Nos photographes</h1>
     </header>
     <main id="main">
       <div class="photograph-header">
-        <button class="contact_button" onclick="displayModal()">Contactez-moi</button>
+        <button class="contact_button" aria-label="Contact me">Contactez-moi</button>
       </div>
       <div class="sorting-container">
         <label for="sort-select">Trier par</label>
-        <select name="sort-select" id="sort-select" aria-label="Trier les médias par">
-          <option value="popularity">Popularity</option>
+        <select name="sort-select" id="sort-select" aria-label="Order by">
+          <option value="popularity">Popularité</option>
           <option value="date">Date</option>
           <option value="title">Titre</option>
         </select>
       </div>
     </main>
-    <dialog id="contact_modal">
+    <dialog id="contact_modal" aria-labelledby="contact_title">
 			<div class="modal">
 				<header>
-          <h2>Contactez-moi</h2>
-          <img src="assets/icons/close.svg" onclick="closeModal()" />
+          <div class="modal_title_container">
+            <div class="modal_title">
+              <h2 id="contact_title">Contactez-moi</h2>
+              <p class="photographer_name"></p>
+            </div>
+            <button class="modal-close-button fas fa-times" role="button" aria-label="Close contact form">
+            </button> 
+          </div>           
         </header>
-				<form>
+				<form class="contact_form">
 					<div>
-						<label>Prénom</label>
-						<input />
+						<label for="firstName">Prénom *</label>
+						<input id="firstName" name="firstName" type="text" required aria-required="true"/>
 					</div>
-          <button class="contact_button">Envoyer</button>
+          <div>
+            <label for="name">Nom *</label>
+						<input id="name" name="name" type="text" required aria-required="true"/>
+          </div>
+          <div>
+            <label for="email">Email *</label>
+            <input id="email" name="email" type="email" required aria-required="true" />
+          </div>
+          <div>
+            <label for="message">Votre message *</label>
+            <textarea id="message" name="message" rows="4" required aria-required="true"></textarea>
+          </div>
+          <button type="submit" class="send_contact_button" aria-label="Send">Envoyer</button>
 				</form>
 			</div>
 		</dialog>

@@ -1,17 +1,9 @@
 import { photographerFactory } from "../factories/photographerFactory.js";
 import { mediaFactory } from "../factories/mediaFactory.js";
 
-// Ajoute un écouteur d'évènement => redirige vers la page d'acceuil
-const logo = document.querySelector(".logo");
-logo.setAttribute("alt", "Fisheye Home page");
-
-logo.addEventListener("click", () => {
-  window.location.href = "index.html";
-});
-
 let photographerMedia = [];
 
-// Récupère les données des photographes et des médias à partir du fichier JSON
+// Récupère les données JSON à partir d'un fichier et retourne un objet JS
 async function getData(file) {
   const response = await fetch(file);
   const data = await response.json(); 
@@ -30,7 +22,7 @@ const getMediaByPhotographerId = (id, media) => {
   return mediaByPhotographer;
 };
 
-// Trie les médias en fonction du type de tri selectionné
+// Trie les médias en fonction du type de tri selectionné(passé en paramètre)
 function sortMedia(sortType) {
   if (sortType === "popularity") {
     photographerMedia.sort((a, b) => b.likes - a.likes);
@@ -41,7 +33,7 @@ function sortMedia(sortType) {
   }
 };
 
-// Met à jour l'affichage des médias en fonction de l'option de tri choisie
+// Met à jour l'affichage des médias en fonction du photographe et du tri appliqué
 function updateDisplayMedia(photographerId) {
   const mediaContainer = document.querySelector(".media-container");
   mediaContainer.innerHTML = "";
@@ -58,39 +50,34 @@ function getTotalLikes(photographerMedia) {
   return totalLikes;
 };
 
-// Met à jour le nombre de likes pour un seul média
-function updateLikeCount(mediaHeart, mediaLikes) {
-  const isLiked = mediaHeart.getAttribute("data-is-liked") === "true";
-
-  if(!isLiked) {
-    const currentLikes = parseInt(mediaLikes.textContent);
-    const newLikes = currentLikes + 1;
-    mediaLikes.textContent = newLikes;
-
-    mediaHeart.setAttribute("data-is-liked", true);
-    mediaHeart.classList.add("liked");
-
-    const mediaLikedEvent = new CustomEvent("mediaLiked");
-    document.dispatchEvent(mediaLikedEvent);
-  };
-};
-
-// Met à jour le nombre total de likes pour tous les médias
-function updateTotalLikes() {
+// Met à jour le nombre de likes pour un média + compteur total en fonction de l'incrément donné.
+function updateLikes(mediaHeart, mediaLikes, increment) {
   const totalLikesElement = document.querySelector(".total-likes");
   const currentTotalLikes = parseInt(totalLikesElement.textContent);
-  const newTotalLikes = currentTotalLikes + 1;
-  totalLikesElement.textContent = `${newTotalLikes}`;
 
-  const totalLikesHeart = document.querySelector(".total-heart");
-  const isTotalLiked = totalLikesHeart.getAttribute("data-is-liked") === "true";
-  if (!isTotalLiked) {
-    totalLikesHeart.setAttribute("data-is-liked", true);
-    totalLikesHeart.classList.add("liked");
-  }
+  const currentLikes = parseInt(mediaLikes.textContent);
+  const newLikes = increment ? currentLikes + 1 : currentLikes - 1;
+  mediaLikes.textContent = newLikes;
+
+  increment ? mediaHeart.setAttribute("data-is-liked", true) : mediaHeart.setAttribute("data-is-liked", false);
+  increment ? mediaHeart.classList.add("liked") : mediaHeart.classList.remove("liked");
+
+  const eventName = increment ? "mediaLiked" : "mediaUnLiked";
+  const mediaEvent = new CustomEvent(eventName);
+  document.dispatchEvent(mediaEvent);
+
+  totalLikesElement.textContent = increment ? `${currentTotalLikes + 1}` : `${currentTotalLikes - 1}`;
 }
 
-document.addEventListener("mediaLiked", updateTotalLikes);
+function toggleLike(event) {
+  if (event.type === "click" || event.key === "Enter" || event.key === " ") {
+    event.preventDefault();
+    const mediaHeart = event.target;
+    const mediaLikes = mediaHeart.parentElement.querySelector(".media-likes");
+    const isLiked = mediaHeart.getAttribute("data-is-liked") === "true";
+    updateLikes(mediaHeart, mediaLikes, !isLiked);
+  };
+};
 
 // Crée et ajoute les éléments HTML des médias triés correspondants à l'id du photographe
 function addMediaToContainer(photographerId, photographerMedia, mediaContainer) {
@@ -98,12 +85,10 @@ function addMediaToContainer(photographerId, photographerMedia, mediaContainer) 
     media.photographerId = photographerId;
     const mediaElement = mediaFactory(media);
     const mediaHeart = mediaElement.querySelector(".media-heart");
-    const mediaLikes = mediaElement.querySelector(".media-likes");
     mediaContainer.appendChild(mediaElement);
 
-    mediaHeart.addEventListener("click", () => {
-      updateLikeCount(mediaHeart, mediaLikes);  
-    });
+    mediaHeart.addEventListener("click", toggleLike);
+    mediaHeart.addEventListener("keydown", toggleLike);
     
     mediaElement.addEventListener("click", openLightBox);
   });
@@ -121,6 +106,9 @@ function displayHeader(photographer) {
 
   photographerHeader.insertBefore(div, contactButton);
   photographerHeader.insertBefore(img, contactButton.nextSibling);
+
+  const contactModal = document.querySelector("#contact_modal");
+  contactModal.setAttribute("aria-label", `Contact me ${photographer.name}`);
 };
 
 // Affiche les médias triés sur la page
@@ -165,17 +153,23 @@ function createLightBox() {
   const lightbox = document.createElement("dialog");
   const lightboxContent = document.createElement("div");
   const mediaBox = document.createElement("div"); 
-  const previousArrow = document.createElement("i");
-  const nextArrow = document.createElement("i");
+  const previousArrow = document.createElement("button");
+  const nextArrow = document.createElement("button");
   
-  const closeButton = closeLightbox();
+  const closeButton = createCloseButton();
   
   lightbox.classList.add("lightbox");
-  lightbox.setAttribute("aria-label", "image closeup view");
+  lightbox.setAttribute("aria-label", "Image closeup view");
   lightboxContent.classList.add("lightbox-content");
   mediaBox.classList.add("media-box");
   previousArrow.classList.add("previous-arrow","fas", "fa-angle-left");
+  previousArrow.classList.add("focus-line-orange");
+  previousArrow.setAttribute("role", "button");
+  previousArrow.setAttribute("aria-label", "Previous image");
   nextArrow.classList.add("next-arrow", "fas", "fa-angle-right");
+  nextArrow.classList.add("focus-line-orange");
+  nextArrow.setAttribute("role", "button");
+  nextArrow.setAttribute("aria-label", "Next image");
   
   lightboxContent.appendChild(previousArrow);
   lightboxContent.appendChild(mediaBox);
@@ -199,7 +193,6 @@ function openLightBox(event) {
   // Récupère les données du média sélectionné
   const clickedMedia = event.target.closest(".media-photograph");
   currentIndex = photographerMedia.findIndex(media => media.id === parseInt(clickedMedia.getAttribute("data-media-id")));
-  const selectedMedia = photographerMedia[currentIndex];
 
   const lightbox = document.querySelector(".lightbox");
 
@@ -211,9 +204,12 @@ function openLightBox(event) {
   lightbox.showModal();
 };
 
-function closeLightbox () {
-  const closeButton = document.createElement("i");
-  closeButton.classList.add("close-button", "fas", "fa-times");
+function createCloseButton() {
+  const closeButton = document.createElement("button");
+  closeButton.classList.add("lightbox-close-button", "fas", "fa-times");
+  closeButton.classList.add("focus-line-orange");
+  closeButton.setAttribute("role", "button");
+  closeButton.setAttribute("aria-label", "Close dialog");
 
   closeButton.addEventListener("click", () => {
     const lightbox = document.querySelector(".lightbox");
@@ -221,15 +217,16 @@ function closeLightbox () {
   });
 
   return closeButton;
-
 }
 
 // Crée les éléments HTML pour la lightbox en utilisant mediaFactory
 function createLightboxContent(selectedMedia) {
+  const lightboxLink = document.createElement("a");
   const lightboxImage = document.createElement("img");
   const lightboxVideo = document.createElement("video");
-  const lightboxTitle = document.createElement("p");
+  const lightboxTitle = document.createElement("h3");
 
+  lightboxLink.classList.add("focus-line-orange");
   lightboxImage.classList.add("lightbox-img");
   lightboxVideo.classList.add("lightbox-video");
   lightboxTitle.classList.add("lightbox-title");
@@ -238,18 +235,22 @@ function createLightboxContent(selectedMedia) {
   const mediaBox = document.querySelector(".media-box");
   mediaBox.textContent = "";
 
+  lightboxLink.setAttribute("href", "#");
+  lightboxLink.setAttribute("aria-label", "Link to " + selectedMedia.title);
+
   if (selectedMedia.image) {
     lightboxImage.setAttribute("src", `assets/photographers/${selectedMedia.photographerId}/${selectedMedia.image}`);
     lightboxImage.setAttribute("alt", selectedMedia.title);
-    mediaBox.appendChild(lightboxImage);
+    lightboxLink.appendChild(lightboxImage);
   } else if (selectedMedia.video) {
     lightboxVideo.setAttribute("src", `assets/photographers/${selectedMedia.photographerId}/${selectedMedia.video}`);
     lightboxVideo.setAttribute("aria-label", selectedMedia.title);
     lightboxVideo.controls = true;
     lightboxVideo.setAttribute("preload", "metadata");
-    mediaBox.appendChild(lightboxVideo);
+    lightboxLink.appendChild(lightboxVideo);
   };
 
+  mediaBox.appendChild(lightboxLink);
   mediaBox.appendChild(lightboxTitle);
 }
 
@@ -258,11 +259,13 @@ function lightboxNavEvents() {
   const previousArrow = document.querySelector(".previous-arrow");
   const nextArrow = document.querySelector(".next-arrow");
 
+  // Navigue vers l'img précédente lorsque la flèche de gauche est cliquée
   previousArrow.addEventListener("click", () => {
     currentIndex = (currentIndex - 1 + photographerMedia.length) % photographerMedia.length;
     updateLightBox(currentIndex);
   });
 
+  // Navigue vers l'image suivante lorsque la flèche de droite est cliquée
   nextArrow.addEventListener("click", () => {
     currentIndex = (currentIndex + 1) % photographerMedia.length;
     updateLightBox(currentIndex);
@@ -274,11 +277,6 @@ function updateLightBox(currentIndex) {
   const selectedMedia = photographerMedia[currentIndex];
 
   createLightboxContent(selectedMedia);
-
-  const mediaBox = document.querySelector(".media-box");
-  mediaBox.textContent = "";
-  const newMediaElement = mediaFactory(selectedMedia, true);
-  mediaBox.appendChild(newMediaElement);
 
   const previousArrow = document.querySelector(".previous-arrow");
   const nextArrow = document.querySelector(".next-arrow");
@@ -304,9 +302,15 @@ function keybordNavigation(event) {
   };
 
   if (event.key === "ArrowLeft") {
+    if (currentIndex === 0) {
+      return;
+    };
     currentIndex = (currentIndex - 1 + photographerMedia.length) % photographerMedia.length;
     updateLightBox(currentIndex);
   } else if (event.key === "ArrowRight") {
+    if (currentIndex === photographerMedia.length - 1) {
+      return;
+    };
     currentIndex = (currentIndex + 1) % photographerMedia.length;
     updateLightBox(currentIndex);
   } else if (event.key === "Escape") {
@@ -330,6 +334,9 @@ async function init() {
 
   const photographer = findPhotographerById(photographerId, photographers);
   photographerMedia = getMediaByPhotographerId(photographerId, media);
+  
+  const photographerName = document.querySelector(".photographer_name");
+  photographerName.textContent = photographer.name;
 
   displayHeader(photographer);
   displayMedia(photographerId, photographerMedia);

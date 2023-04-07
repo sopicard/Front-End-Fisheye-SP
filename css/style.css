@@ -2,15 +2,21 @@
 
 body {
     font-family: "DM Sans", sans-serif;
-    margin: 0;
 }
 
+.focus-line-orange:focus-visible {
+    outline: 2px solid #D3573C;
+    border-radius: 5px;
+    padding: 3px;
+}
+  
 header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     height: 90px;
+    margin: 30px 0;
 }
 
 h1 {
@@ -18,10 +24,13 @@ h1 {
     margin-right: 100px;
 }
 
-.logo {
+.logo { 
     height: 50px;
-    margin-left: 100px;
     cursor: pointer
+}
+
+.logo_link {
+    margin-left: 100px;
 }
 
 .photographer_section {

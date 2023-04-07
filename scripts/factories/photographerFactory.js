@@ -7,6 +7,7 @@ function photographerFactory(data) {
     // Crée la carte pour le photographe
     function getUserCardDOM() {
         const a = document.createElement("a");
+        a.classList.add("focus-line-orange");
         const article = document.createElement("article");
         const img = document.createElement("img");
         const h2 = document.createElement("h2");
@@ -18,9 +19,9 @@ function photographerFactory(data) {
         priceElement.classList.add("price-p");
 
         a.setAttribute("href", `../../photographer.html?id=${id}`);
-        a.setAttribute("aria-label", `Voir la page de ${name}`); 
+        a.setAttribute("aria-label", `See the page of ${name}`); 
         img.setAttribute("src", picture);
-        img.setAttribute("alt", `Portrait de ${name}`);
+        img.setAttribute("alt", `Portrait of ${name}`);
         h2.textContent = name;
         location.textContent = `${city}, ${country}`;
         taglineElement.textContent = tagline;
@@ -43,7 +44,7 @@ function photographerFactory(data) {
         const div = document.createElement("div");
         div.classList.add("infosDiv");
         const h2 = document.createElement("h2");
-        const location = document.createElement("p");
+        const location = document.createElement("h3");
         location.classList.add("location-p");
         const taglineElement = document.createElement("p");
         taglineElement.classList.add("tagline-p");
@@ -53,7 +54,7 @@ function photographerFactory(data) {
         location.textContent = `${city}, ${country}`;
         taglineElement.textContent = tagline;
         img.setAttribute("src", picture);
-        img.setAttribute("alt", `Portrait de ${name}`);
+        img.setAttribute("alt", `Portrait of ${name}`);
 
         div.appendChild(h2);
         div.appendChild(location);

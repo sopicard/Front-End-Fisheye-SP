@@ -1,7 +1,3 @@
-#contact_modal {
-    display: none;
-}
-
 .photograph-header {
     background-color: #FAFAFA;
     height: 300px;
@@ -27,6 +23,7 @@
 .photograph-header .location-p {
     color: #901C1C;
     font-size: 24px;
+    font-weight: normal;
     margin-bottom: 1rem;
 }
 
@@ -35,7 +32,7 @@
     font-size: 18px;
 }
 
-.contact_button, #sort-select {
+.contact_button, #sort-select, .send_contact_button {
     font-size: 20px;
     font-weight: bold;
     color: white;
@@ -46,6 +43,12 @@
     background-color: #901C1C;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.contact_button:focus, #sort-select:focus, .send_contact_button:focus {
+    outline: transparent;
+    color: black;
+    background-color: #D3573C;
 }
 
 .photograph-header img {
@@ -77,6 +80,7 @@
 .media-photograph {
     width: 350px;
     height: 350px;
+    text-decoration: none;
 }
 
 .media-photograph img, video {
@@ -102,6 +106,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-weight: normal;
   }
   
 
@@ -116,6 +121,13 @@
 .media-infos .media-heart.liked {
     color:#DB8876;
 }
+
+.media-infos .media-heart.liked:focus {
+    outline: 2px solid #901C1C;
+    padding: 3px;
+    border-radius: 5px; 
+}
+
 
 .total-container {
     display: flex;
@@ -143,30 +155,35 @@
 .lightbox { 
     width: 100%;
     height: 100%;
+    padding: 2em;
     background-color: white;
-    z-index: 1000; 
+    z-index: 1000;
+    border: none; 
 }
   
 .lightbox-content {
     width: 1242px;
-    height: 900px;
+    height: 100%;
     display: flex;
     align-items: center;
     position: relative;
     background-color:white;
     overflow: hidden;
-    margin: auto;
-    margin-top: 50px;
+    margin: auto;   
 }
 
 .lightbox-content .media-box {
     width: 1050px;
-    height: 900px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     margin: auto;
+    margin-top: 40px;
+}
+
+.lightbox .media-box a:focus {
+    padding: 10px 7px 5px 7px;
 }
 
 .lightbox-img, .lightbox-video, .lightbox-media {
@@ -175,15 +192,18 @@
     object-fit: cover;
 }
 
-.lightbox-content .close-button, .previous-arrow, .next-arrow {
+.lightbox-close-button, .previous-arrow, .next-arrow {
     color: #901C1C;
     font-size: 50px;
     cursor: pointer;
+    border: none;
+    background-color: white;
+    margin: 0 10px;
 }
 
-.lightbox-content .close-button {
+.lightbox-close-button {
     position: absolute;
-    top: 10px;
+    top: 50px;
     right: 0px;
 }
 
@@ -191,9 +211,17 @@
     font-weight: normal;
     font-size: 24px;
     color: #901C1C;
-    margin-bottom: auto;
     align-self: flex-start;
     text-align: left;
+    margin-top: 10px;
+}
+
+#contact_modal {
+    width: 100%;
+    height: 100%;
+    padding: 2em;
+    background-color: rgba(128, 128, 128, 0.5);
+    z-index: 2000;
 }
   
 .modal {
@@ -203,24 +231,45 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    padding: 35px;
+    gap: 70px;
+    padding: 30px;
     margin: auto;
 }
 
 .modal header {
-    justify-content: space-between;
     width: 100%;
 }
 
-.modal header img {
-    cursor: pointer;
+.modal_title_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+  }
+  
+.modal_title {
+    display: flex;
+    flex-direction: column;
 }
 
-.modal header h2 {
+.modal-close-button {
+    font-size: 70px;
+    color: white;
+    background-color: #DB8876;
+    cursor: pointer;
+    border: none;
+    margin-top: 10px;
+}
+
+.modal-close-button:focus-visible {
+    outline: 2px solid #901C1C;
+    border-radius: 5px; 
+}
+
+.modal header h2, .photographer_name {
     font-size: 64px;
     font-weight: normal;
-    text-align: center;
+    margin: 0;
 }
 
 form {
@@ -248,4 +297,25 @@ form input {
     height: 68px;
     border: none;
     border-radius: 5px;
+    font-size: 30px;
 }
+
+form textarea {
+    width: 100%;
+    height: 170px;
+    border: none;
+    border-radius: 5px;
+    font-size: 30px;
+    font-family: "DM Sans", sans-serif;
+  }
+  
+form input:focus, textarea:focus {
+outline: 2px solid #901C1C;
+}
+
+.success {
+    color: #D3573C;
+}
+
+
+  
