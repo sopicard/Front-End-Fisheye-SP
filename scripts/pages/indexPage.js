@@ -7,7 +7,7 @@ async function getPhotographers() {
     const photographers = data.photographers;
 
     return photographers;
-};
+}
 
 // Affiche la carte de chaque photographe
 function displayData(photographers) {
@@ -18,13 +18,13 @@ function displayData(photographers) {
         const userCardDOM = photographerModel.getUserCardDOM();
         photographersSection.appendChild(userCardDOM);
     });
-};
+}
 
 // Initialise l'application en affichant les cartes des photographes
 async function init() {
     const photographers = await getPhotographers();
     displayData(photographers);
-};
+}
 
 // Démarre l'application en appelant la fonction init
 init();

@@ -1,3 +1,4 @@
+// Récupère l'élément modale de contact 
 const contactModal = document.querySelector("#contact_modal");
 
 function displayModal() {
@@ -8,10 +9,12 @@ function closeModal() {
     contactModal.close();
 }
 
+// Ajoute un écouteur sur le bouton "Contactez-moi"
 const contactButton = document.querySelector(".contact_button");
 contactButton.addEventListener("click", displayModal);
 
-const modalCloseButton = document.querySelector(".modal-close-button");
+// Ajoute un écouteur pour supprimer l'évènement
+const modalCloseButton = document.querySelector(".modal_close_button");
 modalCloseButton.addEventListener("click", closeModal);
 
 const contactForm = document.querySelector(".contact_form");
@@ -20,11 +23,13 @@ let formSubmitted = false;
 contactForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
+    // Récupère les valeurs des champs des formulaires
     const firstName = document.querySelector("#firstName").value;
     const name = document.querySelector("#name").value;
     const email = document.querySelector("#email").value;
     const message = document.querySelector("#message").value;
 
+    // Affiche les données récupérées dans la console
     console.log("Prénom:", firstName);
     console.log("Nom:", name);
     console.log("Email:", email);
@@ -33,13 +38,13 @@ contactForm.addEventListener("submit", (event) => {
     formSubmitted = true;
 });
 
-function applySuccessStyle() {
+// Réinitialise le form et ferme la modale
+function submitAndResetForm() {
     if (formSubmitted) {
-        const contactFormElements = document.querySelectorAll("input, textarea, select")
-        contactFormElements.forEach((element) => {
-            element.classList.add("success");
-        });
+        contactForm.reset();
+        closeModal();
     }
-};
+}
 
-contactForm.addEventListener("submit", applySuccessStyle);
+// Ajoute un écouteur sur la soumission du formulaire
+contactForm.addEventListener("submit", submitAndResetForm);

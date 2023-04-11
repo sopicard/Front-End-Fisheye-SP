@@ -37,7 +37,7 @@ function photographerFactory(data) {
         
         // Retourne l'élément "a" contenant la carte
         return a;
-    };
+    }
 
     // Crée une div contenant les informations du photographe
     function getPhotographerHeaderDOM() {
@@ -63,11 +63,11 @@ function photographerFactory(data) {
         // Retourne un objet contenant la div des informations et l'image du photographe
         return { div, img };
 
-    };
+    }
 
     // Retourne un objet contenant les propriétés du photographe
     //  et les fonctions qui crée la carte et le header du photographe
     return { name, picture, city, country, tagline, price, getUserCardDOM, getPhotographerHeaderDOM};
-};
+}
 
 export { photographerFactory };
