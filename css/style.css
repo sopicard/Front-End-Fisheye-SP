@@ -65,17 +65,22 @@ h1 {
     border-radius: 50%;
 }
 
-.photographer_section article .location-p {
+.photographer_section article .location {
     color: #901C1C;
-    font-size: 15px;
+    font-size: 20px;
+    font-weight: normal;
+    margin: 10px 0 0;
 }
 
-.photographer_section article .tagline-p {
+.photographer_section article .tagline {
     color: black;
-    font-size: 13px;
+    font-size: 17px;
+    font-weight: normal;
+    margin: 0;
 }
 
 .photographer_section article .price-p {
     color: #757575;
-    font-size: 12px;
+    font-size: 15px;
+    margin: 0;
 }

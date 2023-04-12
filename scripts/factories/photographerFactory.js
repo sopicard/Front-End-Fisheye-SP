@@ -11,17 +11,17 @@ function photographerFactory(data) {
         const article = document.createElement("article");
         const img = document.createElement("img");
         const h2 = document.createElement("h2");
-        const location = document.createElement("p");
-        location.classList.add("location-p");
-        const taglineElement = document.createElement("p");
-        taglineElement.classList.add("tagline-p");
+        const location = document.createElement("h3");
+        location.classList.add("location");
+        const taglineElement = document.createElement("h4");
+        taglineElement.classList.add("tagline");
         const priceElement = document.createElement("p");
         priceElement.classList.add("price-p");
 
         a.setAttribute("href", `../../photographer.html?id=${id}`);
-        a.setAttribute("aria-label", `See the page of ${name}`); 
+        a.setAttribute("aria-label", `Consulter la page de ${name}`); 
         img.setAttribute("src", picture);
-        img.setAttribute("alt", `Portrait of ${name}`);
+        img.setAttribute("alt", `Portrait de ${name}`);
         h2.textContent = name;
         location.textContent = `${city}, ${country}`;
         taglineElement.textContent = tagline;
@@ -45,16 +45,16 @@ function photographerFactory(data) {
         div.classList.add("infosDiv");
         const h2 = document.createElement("h2");
         const location = document.createElement("h3");
-        location.classList.add("location-p");
-        const taglineElement = document.createElement("p");
-        taglineElement.classList.add("tagline-p");
+        location.classList.add("location");
+        const taglineElement = document.createElement("h4");
+        taglineElement.classList.add("tagline");
         const img = document.createElement("img");
 
         h2.textContent = name;
         location.textContent = `${city}, ${country}`;
         taglineElement.textContent = tagline;
         img.setAttribute("src", picture);
-        img.setAttribute("alt", `Portrait of ${name}`);
+        img.setAttribute("alt", `Portrait de ${name}`);
 
         div.appendChild(h2);
         div.appendChild(location);

@@ -109,7 +109,7 @@ function displayHeader(photographer) {
   photographerHeader.insertBefore(img, contactButton.nextSibling);
 
   const contactModal = document.querySelector("#contact_modal");
-  contactModal.setAttribute("aria-label", `Contact me ${photographer.name}`);
+  contactModal.setAttribute("aria-label", `Contactez-moi ${photographer.name}`);
 }
 
 // Affiche les médias triés sur la page
@@ -160,15 +160,15 @@ function createLightBox() {
   const closeButton = createCloseButton();
   
   lightbox.classList.add("lightbox");
-  lightbox.setAttribute("aria-label", "Image closeup view");
+  lightbox.setAttribute("aria-label", "Vue en gros plan de l'image");
   lightboxContent.classList.add("lightbox-content");
   mediaBox.classList.add("media-box");
   previousArrow.classList.add("previous-arrow","fas", "fa-angle-left");
   previousArrow.classList.add("focus-line-orange");
-  previousArrow.setAttribute("aria-label", "Previous image");
+  previousArrow.setAttribute("aria-label", "Image précédente");
   nextArrow.classList.add("next-arrow", "fas", "fa-angle-right");
   nextArrow.classList.add("focus-line-orange");
-  nextArrow.setAttribute("aria-label", "Next image");
+  nextArrow.setAttribute("aria-label", "Image suivante");
   
   lightboxContent.appendChild(previousArrow);
   lightboxContent.appendChild(mediaBox);
@@ -215,7 +215,7 @@ function createCloseButton() {
   const closeButton = document.createElement("button");
   closeButton.classList.add("lightbox-close-button", "fas", "fa-times");
   closeButton.classList.add("focus-line-orange");
-  closeButton.setAttribute("aria-label", "Close dialog");
+  closeButton.setAttribute("aria-label", "Fermer la fenêtre de vue rapprochée");
 
   closeButton.addEventListener("click", () => {
     const lightbox = document.querySelector(".lightbox");
@@ -241,8 +241,9 @@ function createLightboxContent(selectedMedia) {
   const mediaBox = document.querySelector(".media-box");
   mediaBox.textContent = "";
 
-  lightboxLink.setAttribute("aria-label", "Link to " + selectedMedia.title);
+  lightboxLink.setAttribute("aria-label", selectedMedia.title);
   lightboxLink.setAttribute("tabindex", "0");
+  lightboxTitle.setAttribute("lang", "en");
 
   if (selectedMedia.image) {
     const lightboxImageContainer = document.createElement("div");

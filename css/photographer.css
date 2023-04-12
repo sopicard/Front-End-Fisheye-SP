@@ -20,15 +20,15 @@
     margin: 0;
 }
 
-.photograph-header .location-p {
+.photograph-header .location {
     color: #901C1C;
     font-size: 24px;
     font-weight: normal;
     margin-bottom: 1rem;
 }
 
-.photograph-header .tagline-p {
-    color: black;
+.photograph-header .tagline {
+    color: #525252;
     font-size: 18px;
 }
 
@@ -63,7 +63,7 @@
 }
 
 .sorting-container label {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
     margin-right: 20px;
 }
@@ -72,15 +72,17 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    margin: 0 100px;
-    margin-top: 100px;
+    margin: 100px;
     gap: 30px;
 }
 
 .media-photograph {
-    text-decoration: none;
     width: 350px;
     height: 350px;
+    padding: 3px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
 .media-photograph img, video {
@@ -90,15 +92,33 @@
     border-radius: 5px;
 }
 
+.media-photograph .a_infos {
+    text-decoration: none;
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    z-index: 1;
+    width: 90%;
+}
+
+.media-photograph .a_infos:focus-visible {
+    outline: 2px solid #D3573C;
+    border-radius: 5px;
+    padding: 25px 20px 25px 25px;
+}
+
 .media-infos {
     display: flex;
     align-items: center;
+    width: 100%;
 }
 
-.media-infos .media-title, .media-likes, .media-heart {
+.media-infos .media-title, .media-likes{
     font-size: 24px;
     color: #901C1C;
-    margin: 0;
+    margin: auto;
+    margin-right: 5px;
 }
 
 .media-infos .media-title {
@@ -107,28 +127,36 @@
     overflow: hidden;
     text-overflow: ellipsis;
     font-weight: normal;
+    margin: 0;
   }
-  
 
-.media-infos .media-likes {
-    margin-left: auto;
+.media-heart {
+    font-size: 24px;
+    color: #901C1C;
+    border: none;
+    background-color: white;
+    position: absolute;
+    bottom: 4px;
+    right:  5px;
+    padding: 0;
 }
 
-.media-infos .media-heart {
-    margin-left: 10px;
-}
-
-.media-infos .media-heart.liked {
+.media-heart.liked {
     color:#DB8876;
 }
 
-.media-infos .media-heart.liked:focus-visible {
+.media-heart.liked:focus-visible {
     outline: 2px solid #901C1C;
     padding: 3px;
     border-radius: 5px; 
 }
 
 .total-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
     display: flex;
     margin-left: auto;
     margin-right: 50px;

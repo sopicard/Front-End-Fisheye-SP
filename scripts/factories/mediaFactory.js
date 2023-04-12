@@ -7,16 +7,14 @@ function mediaFactory(data, forLightbox = false) {
   const picturePath = `assets/photographers/${photographerId}/${image}`;
   const videoPath = `assets/photographers/${photographerId}/${video}`;
 
-  // Crée un lien <a> pour chaque média
-  const a = document.createElement("a");
-  a.setAttribute("href", "#");
-  a.setAttribute("aria-label", `Link to ${title}`);
-  a.setAttribute("data-media-id", data.id);
+  // Crée un élémnet <article> pour chaque média
+  const article = document.createElement("article");
+  article.setAttribute("data-media-id", data.id);
+  
   if (forLightbox) {
-    a.classList.add("lightbox-media");
+    article.classList.add("lightbox-media");
   } else {
-    a.classList.add("media-photograph");
-    a.classList.add("focus-line-orange");
+    article.classList.add("media-photograph");
   }
   
   // Ajoute l'image ou la vidéo en fonction du type de média
@@ -35,7 +33,7 @@ function mediaFactory(data, forLightbox = false) {
     img.setAttribute("src", picturePath);
     img.setAttribute("alt", title);
     imgContainer.appendChild(img);
-    a.appendChild(imgContainer); 
+    article.appendChild(imgContainer); 
 
   } else if (video) {
     const videoContainer = document.createElement("div");
@@ -49,21 +47,24 @@ function mediaFactory(data, forLightbox = false) {
     videoElement.setAttribute("aria-label", title);
     videoElement.controls = true;
     videoContainer.appendChild(videoElement);
-    a.appendChild(videoContainer);
+    article.appendChild(videoContainer);
   }
 
   // Ajoute les informations du media
   if (!forLightbox) { 
+    const aInfos = document.createElement("a");
+    aInfos.classList.add("a_infos");
     const mediaInfos = document.createElement("div");
     mediaInfos.classList.add("media-infos");
     const mediaTitle = document.createElement("h3");
     mediaTitle.classList.add("media-title");
     const mediaLikes = document.createElement("p");
     mediaLikes.classList.add("media-likes");
-    const mediaHeart = document.createElement("span");
-    mediaHeart.classList.add("media-heart");
-    mediaHeart.classList.add("focus-line-orange");
+    const mediaHeart = document.createElement("button");
+    mediaHeart.classList.add("media-heart", "fas", "fa-heart", "focus-line-orange");
 
+    aInfos.setAttribute("href", "#");
+    aInfos.setAttribute("aria-label", `Zoom sur ${title}`);
     mediaTitle.textContent = title;
     mediaTitle.setAttribute = ("lang", "en");
 
@@ -72,20 +73,20 @@ function mediaFactory(data, forLightbox = false) {
     mediaLikes.setAttribute("aria-live", "polite");
     mediaLikes.setAttribute("role", "status");
 
-    mediaHeart.classList.add("media-heart", "fas", "fa-heart");
     mediaHeart.setAttribute("data-is-liked", false);
-    mediaHeart.setAttribute("tabindex", "0");
-    mediaHeart.setAttribute("aria-label", "Click to like this media");
-    mediaHeart.setAttribute("role", "button");
+    mediaHeart.setAttribute("type", "button");
+    mediaHeart.setAttribute("aria-label", "Cliquez pour indiquer que vous aimez ce média");
   
-    a.appendChild(mediaInfos);
+    aInfos.appendChild(mediaInfos);
     mediaInfos.appendChild(mediaTitle);
     mediaInfos.appendChild(mediaLikes);
-    mediaInfos.appendChild(mediaHeart);
+    
+    article.appendChild(aInfos);
+    article.appendChild(mediaHeart);
   }  
   
-  // Retourne l'élément "a" construit
-  return a;
+  // Retourne l'élément "article" construit
+  return article;
 }
   
 export { mediaFactory };
