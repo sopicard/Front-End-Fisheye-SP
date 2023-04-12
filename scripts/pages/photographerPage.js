@@ -163,11 +163,9 @@ function createLightBox() {
   lightbox.setAttribute("aria-label", "Vue en gros plan de l'image");
   lightboxContent.classList.add("lightbox-content");
   mediaBox.classList.add("media-box");
-  previousArrow.classList.add("previous-arrow","fas", "fa-angle-left");
-  previousArrow.classList.add("focus-line-orange");
+  previousArrow.classList.add("previous-arrow","fas", "fa-angle-left", "focus-line-orange");
   previousArrow.setAttribute("aria-label", "Image précédente");
-  nextArrow.classList.add("next-arrow", "fas", "fa-angle-right");
-  nextArrow.classList.add("focus-line-orange");
+  nextArrow.classList.add("next-arrow", "fas", "fa-angle-right", "focus-line-orange");
   nextArrow.setAttribute("aria-label", "Image suivante");
   
   lightboxContent.appendChild(previousArrow);

@@ -61,7 +61,7 @@ function mediaFactory(data, forLightbox = false) {
     const mediaLikes = document.createElement("p");
     mediaLikes.classList.add("media-likes");
     const mediaHeart = document.createElement("button");
-    mediaHeart.classList.add("media-heart", "fas", "fa-heart", "focus-line-orange");
+    mediaHeart.classList.add("media-heart", "fas", "fa-heart");
 
     aInfos.setAttribute("href", "#");
     aInfos.setAttribute("aria-label", `Zoom sur ${title}`);
