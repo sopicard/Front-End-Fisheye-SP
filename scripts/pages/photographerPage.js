@@ -177,15 +177,14 @@ function createLightBox() {
   document.body.appendChild(lightbox);
 
   previousArrow.addEventListener("click", () => {
-    currentIndex--;
+    currentIndex = (currentIndex - 1 + photographerMedia.length) % photographerMedia.length;
     updateLightBox(currentIndex);
   });
   
   nextArrow.addEventListener("click", () => {
-    currentIndex++;
+    currentIndex = (currentIndex + 1) % photographerMedia.length;
     updateLightBox(currentIndex);
-  });
-  
+  });   
 }
 
 let currentIndex = 0;
@@ -268,22 +267,6 @@ function createLightboxContent(selectedMedia) {
 function updateLightBox(currentIndex) {
   const selectedMedia = photographerMedia[currentIndex];
   createLightboxContent(selectedMedia);
-
-  const previousArrow = document.querySelector(".previous-arrow");
-  const nextArrow = document.querySelector(".next-arrow");
-
-  // Affiche ou masque les boutons "prev" et "next" en fonction de l'index
-  if (currentIndex === 0) {
-    previousArrow.style.display = "none";
-  } else {
-    previousArrow.style.display = "block";
-  }
-
-  if (currentIndex === photographerMedia.length - 1) {
-    nextArrow.style.display = "none";
-  } else {
-    nextArrow.style.display = "block";
-  }
 }
 
 // Initialise pour charger et afficher les données
@@ -294,12 +277,16 @@ async function init() {
   createLightBox();
 
   document.addEventListener("keydown", (event) => {
-    if (event.key === "ArrowLeft" && currentIndex > 0) {
-      currentIndex--;
-      updateLightBox(currentIndex);
-    } else if (event.key === "ArrowRight" && currentIndex < photographerMedia.length - 1) {
-      currentIndex++;
-      updateLightBox(currentIndex);
+    const lightbox = document.querySelector(".lightbox");
+    // Vérifie si la lightbox est ouverte
+    if (lightbox.open) {
+      if (event.key === "ArrowLeft") {
+        currentIndex = (currentIndex - 1 + photographerMedia.length) % photographerMedia.length;
+        updateLightBox(currentIndex);
+      } else if (event.key === "ArrowRight") {
+        currentIndex = (currentIndex + 1) % photographerMedia.length;
+        updateLightBox(currentIndex);
+      }
     }
   });
 
